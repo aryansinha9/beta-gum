@@ -1,0 +1,4 @@
+# For Apache / cPanel hosting: clean URLs like /contact load the one-page site
+RewriteEngine On
+RewriteRule ^(shop|why|about|faq|contact)/?$ /index.html [L]
+ErrorDocument 404 /404.html
