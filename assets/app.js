@@ -179,28 +179,64 @@
   wireForm($('#contactForm'), 'Thanks! We’ll get back to you soon.');
   wireForm($('#newsForm'), 'You’re on the list.');
 
-  /* ---------- Banner moves with page scroll ---------- */
+  /* ---------- Light / dark mode ----------
+     Follows the device setting by default. The button flips it; if the choice
+     matches the device again we forget it, so the site goes back to following the device. */
+  var themeBtn = $('#themeBtn'), root = document.documentElement;
+  var sysDark = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : { matches: false };
+  function isDark() { var t = root.getAttribute('data-theme'); return t ? t === 'dark' : sysDark.matches; }
+  function syncThemeBtn() { if (themeBtn) themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode'); }
+  if (themeBtn) themeBtn.onclick = function () {
+    var next = isDark() ? 'light' : 'dark';
+    if ((next === 'dark') === sysDark.matches) {
+      root.removeAttribute('data-theme');
+      try { localStorage.removeItem('betagum-theme'); } catch (e) {}
+    } else {
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('betagum-theme', next); } catch (e) {}
+    }
+    syncThemeBtn();
+  };
+  if (sysDark.addEventListener) sysDark.addEventListener('change', syncThemeBtn);
+  syncThemeBtn();
+
+  /* ---------- Banner moves with page scroll ----------
+     The banner eases toward its scroll position each frame instead of jumping
+     straight to it, which keeps it smooth during fast phone scrolling. */
   var mq = $('.mq');
   if (mq && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
     var seg = '<div class="mq-seg"><b>β</b><span>CHEW IT</span><b>β</b><span>FEEL IT</span><b>β</b><span>LIFT IT</span></div>';
-    var track = document.createElement('div'), segW = 1, ticking = false;
+    var track = document.createElement('div'), segW = 1, lastW = 0;
+    var SPEED = 0.6;            // how far the banner moves per pixel scrolled
+    var cur = window.scrollY * SPEED, running = false, lastT = 0;
     track.className = 'mq-track';
     mq.innerHTML = ''; mq.appendChild(track);
-    var move = function () {
-      ticking = false;
-      var x = -((window.scrollY * 0.6) % segW);
-      track.style.transform = 'translate3d(' + x + 'px,0,0)';
+    var paint = function () {
+      var x = -(((cur % segW) + segW) % segW);
+      track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
     };
+    var tick = function (t) {
+      var target = window.scrollY * SPEED, dt = lastT ? Math.min(t - lastT, 64) : 16.7;
+      lastT = t;
+      cur += (target - cur) * (1 - Math.pow(0.82, dt / 16.7));
+      if (Math.abs(target - cur) < 0.1) { cur = target; running = false; lastT = 0; }
+      paint();
+      if (running) requestAnimationFrame(tick);
+    };
+    var kick = function () { if (!running) { running = true; requestAnimationFrame(tick); } };
     var fill = function () {
+      var w = mq.offsetWidth;
+      if (w === lastW) return;  // phones fire resize when the address bar hides/shows; ignore those
+      lastW = w;
       track.innerHTML = seg;
       segW = track.firstChild.getBoundingClientRect().width || 1;
-      track.innerHTML = new Array(Math.ceil(mq.offsetWidth / segW) + 2).join(seg);
-      move();
+      track.innerHTML = new Array(Math.ceil(w / segW) + 2).join(seg);
+      paint();
     };
     fill();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fill);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { lastW = 0; fill(); });
     window.addEventListener('resize', fill);
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
+    window.addEventListener('scroll', kick, { passive: true });
   }
 
   /* ---------- Coming-soon links (policies etc.) ---------- */
