@@ -15,11 +15,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;0,900;1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.css?v=4">
+<link rel="stylesheet" href="/assets/styles.css?v=5">
 </head>
-<body>
-<a class="skip" href="#top">Skip to content</a>
-<header><div class="wrap"><nav>
+<body class="is-soon">
+<!-- COMING SOON overlay. To launch the site: delete this block, remove class="is-soon" from <body>,
+     and remove the four "inert" attributes (skip link, header, main, footer). -->
+<div class="soon" role="dialog" aria-modal="true" aria-labelledby="soonTitle">
+<div class="soon-in">
+<span class="soon-logo"><i>β</i>ETA&nbsp;GUM</span>
+<div class="soon-mid">
+<p class="soon-tag">Pre-workout, but make it gum</p>
+<h1 class="big" id="soonTitle">Coming<br><span class="hl">soon.</span></h1>
+<p class="soon-sub">We’re putting the finishing touches on it. Check back shortly.</p>
+</div>
+<a class="credit" href="https://www.anantasystems.com.au/" target="_blank" rel="noopener">Website by Ananta Systems</a>
+</div>
+</div>
+<a class="skip" href="#top" inert>Skip to content</a>
+<header inert><div class="wrap"><nav>
 <a class="logo" href="/" data-route="top" aria-label="Beta Gum home"><i>β</i>ETA&nbsp;GUM</a>
 <div class="links" id="links"><a href="/shop" data-route="shop">Shop</a><a href="/why" data-route="why">Why gum</a><a href="/about" data-route="about">About</a><a href="/faq" data-route="faq">FAQ</a><a href="/contact" data-route="contact">Contact</a></div>
 <div class="navr">
@@ -29,7 +42,7 @@
 </div>
 </nav></div></header>
 
-<main id="top">
+<main id="top" inert>
 <div class="hero"><div class="wrap">
 <div>
 <h1 class="big">Pre&#8209;workout.<br>But make<br>it <span class="hl">gum.</span></h1>
@@ -121,10 +134,12 @@
 </div></section>
 </main>
 
-<footer><div class="wrap"><div class="row">
+<footer inert><div class="wrap"><div class="row">
 <div><strong>β Beta Gum</strong> · Tiwari Corporation Pty Ltd<br>© <span id="yr">2026</span> Beta Gum. All rights reserved.</div>
 <div><a href="#" data-soon="Shipping &amp; Returns">Shipping &amp; Returns</a><a href="#" data-soon="Privacy policy">Privacy</a><a href="#" data-soon="Terms &amp; conditions">Terms</a><br>Instagram · TikTok · YouTube</div>
-</div></div></footer>
+</div>
+<div class="credit-row"><a class="credit" href="https://www.anantasystems.com.au/" target="_blank" rel="noopener">Website by Ananta Systems</a></div>
+</div></footer>
 
 <!-- Cart drawer -->
 <div class="scrim" id="scrim"></div>

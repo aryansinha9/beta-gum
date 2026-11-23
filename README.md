@@ -1,6 +1,12 @@
 # Beta Gum website
 
-## Current mode: information site
+## Right now: "Coming soon" overlay is ON
+The whole site is covered by a "Coming soon" screen. To launch, in `index.html`:
+1. Delete the `<div class="soon" …>` block at the top of `<body>`.
+2. Change `<body class="is-soon">` to `<body>`.
+3. Remove the four `inert` attributes (skip link, `<header>`, `<main>`, `<footer>`).
+
+## Information site mode (what shows once the overlay is removed)
 - **Shop is switched off.** "Add to cart" and "Cart" show a "coming soon" message. To open the shop later, set `SHOP_OPEN = true` in `assets/app.js` and follow "Go live" below.
 - **Policy links** (Shipping & Returns, Privacy, Terms) show a "coming soon" message. The draft pages are in the folder for later.
 - **Contact and newsletter forms** send to your email through Web3Forms (key is in `assets/app.js`).

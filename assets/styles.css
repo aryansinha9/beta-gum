@@ -159,3 +159,20 @@ header .wrap{position:relative}
 @media(max-width:380px){.navr{gap:6px}.cart{padding:8px 10px}.tbtn,.menu{width:40px}}
 /* Phones: size the hero heading to the screen so "PRE-WORKOUT." never gets clipped */
 @media(max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.big{font-size:11.5vw}}
+
+/* Footer credit */
+.credit-row{margin-top:20px;padding-top:16px;border-top:1px solid color-mix(in srgb,var(--line) 20%,transparent)}
+footer .credit,.soon .credit{font-weight:500;font-size:.78rem;letter-spacing:.04em;color:var(--muted);text-decoration:none;margin:0;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
+footer .credit:hover,.soon .credit:hover{color:var(--fg);border-color:var(--blue)}
+
+/* Coming soon overlay */
+body.is-soon{overflow:hidden}
+.soon{position:fixed;inset:0;z-index:100;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);overflow:auto}
+.soon-in{min-height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));max-width:1180px;margin:0 auto}
+.soon-logo{font:900 italic 1.7rem/1 'Inter',sans-serif;text-transform:uppercase;letter-spacing:-.04em}
+.soon-logo i{text-transform:none;font-size:1.15em}
+.soon-tag{display:inline-block;margin:0 0 22px;background:var(--fg);color:var(--bg);padding:5px 12px;font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.soon .big{font-size:clamp(3.6rem,15vw,10rem)}
+.soon-sub{font-size:1.1rem;color:var(--muted);max-width:24em;margin:26px 0 0}
+.soon .credit{align-self:flex-start}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.soon{background:var(--bg)}}
